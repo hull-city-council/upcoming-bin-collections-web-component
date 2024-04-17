@@ -1,10 +1,11 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, LinearProgress, Chip } from "@mui/material";
+import { Box, LinearProgress, Stack } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import axios from "axios";
 
-export default function App() {
+export default function CollectionDays() {
   const { isPending, error, data, isFetching } = useQuery({
     queryKey: ["next_collection_date", "collection_type"],
     queryFn: () =>
@@ -24,7 +25,7 @@ export default function App() {
         month: "long",
         day: "numeric",
       }),
-    })
+    }),
   );
 
   if (error) return "An error has occurred: " + error.message;
@@ -32,7 +33,7 @@ export default function App() {
   return (
     <Box sx={{ height: 400, width: "100%" }} boxShadow={3}>
       <DataGrid
-        pageSizeOptions={0}
+        pageSizeOptions={[0]}
         sx={{
           ".MuiDataGrid-columnHeaderTitle": {
             fontWeight: "bold !important",
@@ -48,10 +49,26 @@ export default function App() {
             minWidth: 100,
             flex: 1,
             renderCell: (params) => {
+              const blue = params.value === "Blue Bin";
+              const black = params.value === "Black Bin";
+              const brown = params.value === "Brown Bin";
               return (
-                <Chip color={params.value === "Blue Bin" ? "primary" : ""}>
-                  {params.value}
-                </Chip>
+                <>
+                  <Stack spacing={2} direction="row" alignItems="center">
+                    <DeleteOutlineIcon
+                      color={
+                        blue
+                          ? "primary"
+                          : black
+                            ? "default"
+                            : brown
+                              ? "warning"
+                              : "default"
+                      }
+                    />
+                    {params.value}
+                  </Stack>
+                </>
               );
             },
           },
