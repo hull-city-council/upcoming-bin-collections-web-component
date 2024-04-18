@@ -1,6 +1,5 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import Badge from "@mui/joy/Badge";
 import Avatar from "@mui/joy/Avatar";
 import Typography from "@mui/joy/Typography";
 import { Box, LinearProgress, Stack } from "@mui/material";
