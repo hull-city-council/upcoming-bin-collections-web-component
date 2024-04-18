@@ -5,6 +5,7 @@ import Typography from "@mui/joy/Typography";
 import { Box, LinearProgress, Stack } from "@mui/material";
 import useFetch from "react-fetch-hook";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import "./styles.css";
 
 const CollectionDays = ({ uprn }) => {
   const { isLoading, data } = useFetch(
@@ -28,7 +29,6 @@ const CollectionDays = ({ uprn }) => {
   return (
     <Box sx={{ height: 400, width: "100%" }} boxShadow={3}>
       <DataGrid
-        pageSizeOptions={[0]}
         sx={{
           ".MuiDataGrid-columnHeaderTitle": {
             fontWeight: "bold !important",

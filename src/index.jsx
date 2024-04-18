@@ -5,7 +5,6 @@ const binCollections = r2wc(CollectionDays, {
   props: {
     uprn: "string",
   },
-  shadow: "open",
 });
 
 customElements.define("upcoming-bin-collections", binCollections);
