@@ -1,0 +1,7 @@
+.MuiDataGrid-columnHeaderTitle {
+  font-size: 1.4rem !important;
+}
+p.MuiTypography-root.MuiTypography-body-md,
+.MuiDataGrid-cell.MuiDataGrid-cell--textLeft {
+  font-size: 1.3rem !important;
+}
