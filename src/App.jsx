@@ -1,18 +1,16 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import Badge from "@mui/joy/Badge";
+import Avatar from "@mui/joy/Avatar";
+import Typography from "@mui/joy/Typography";
 import { Box, LinearProgress, Stack } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import useFetch from "react-fetch-hook";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import axios from "axios";
 
-export default function CollectionDays() {
-  const { isPending, error, data, isFetching } = useQuery({
-    queryKey: ["next_collection_date", "collection_type"],
-    queryFn: () =>
-      axios
-        .get("https://www.hullcc.gov.uk/api/property/bindate2/21044210")
-        .then((res) => res.data),
-  });
+const CollectionDays = ({ uprn }) => {
+  const { isLoading, data } = useFetch(
+    `https://www.hullcc.gov.uk/api/property/bindate2/${uprn}`,
+  );
 
   const rows = [];
   data?.map((item, index) =>
@@ -27,8 +25,6 @@ export default function CollectionDays() {
       }),
     }),
   );
-
-  if (error) return "An error has occurred: " + error.message;
 
   return (
     <Box sx={{ height: 400, width: "100%" }} boxShadow={3}>
@@ -52,21 +48,27 @@ export default function CollectionDays() {
               const blue = params.value === "Blue Bin";
               const black = params.value === "Black Bin";
               const brown = params.value === "Brown Bin";
+              const green = params.value === "GreenCaddy";
               return (
                 <>
-                  <Stack spacing={2} direction="row" alignItems="center">
-                    <DeleteOutlineIcon
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <Avatar
+                      variant="soft"
                       color={
                         blue
                           ? "primary"
                           : black
-                            ? "default"
+                            ? "neutral"
                             : brown
                               ? "warning"
-                              : "default"
+                              : green
+                                ? "success"
+                                : "default"
                       }
-                    />
-                    {params.value}
+                    >
+                      <DeleteOutlineIcon />
+                    </Avatar>
+                    <Typography level="body-md">{params.value}</Typography>
                   </Stack>
                 </>
               );
@@ -77,8 +79,9 @@ export default function CollectionDays() {
         slots={{
           loadingOverlay: LinearProgress,
         }}
-        loading={isPending}
+        loading={isLoading}
       />
     </Box>
   );
-}
+};
+export default CollectionDays;
