@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Avatar from "@mui/joy/Avatar";
 import Typography from "@mui/joy/Typography";
-import Modal from "@mui/joy/Modal";
-import ModalClose from "@mui/joy/ModalClose";
-import ModalDialog from "@mui/joy/ModalDialog";
-import Sheet from "@mui/joy/Sheet";
+import ReportIcon from "@mui/icons-material/Report";
+import Alert from "@mui/joy/Alert";
 import { Box, LinearProgress, Stack } from "@mui/material";
 import useFetch from "react-fetch-hook";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -34,36 +32,22 @@ const CollectionDays = ({ uprn }) => {
 
   return (
     <>
-      <Box sx={{ height: 400, width: "100%" }} boxShadow={3}>
-        <Modal
-          aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
-          open={open}
-          onClose={() => setOpen(false)}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <ModalDialog color="danger" variant="plain">
-            <ModalClose variant="plain" sx={{ m: 1 }} />
-            <Typography
-              component="h2"
-              id="modal-title"
-              level="h4"
-              fontWeight="lg"
-              mb={1}
-            >
-              Missed bins on...
-            </Typography>
-            <Typography id="modal-desc" textColor="text.tertiary">
-              We are aware that that we have not collected the bins from all the
-              properties on your street. If you have been affected, please leave
-              your bin out and we will return as soon as possible.
-            </Typography>
-          </ModalDialog>
-        </Modal>
+      <Alert
+        sx={{ alignItems: "flex-start" }}
+        startDecorator={<ReportIcon />}
+        variant="soft"
+        color="danger"
+      >
+        <div>
+          <div>Missed bins on...</div>
+          <Typography level="body-sm" color="danger">
+            We are aware that that we have not collected the bins from all the
+            properties on your street. If you have been affected, please leave
+            your bin out and we will return as soon as possible.
+          </Typography>
+        </div>
+      </Alert>
+      <Box sx={{ height: 400, width: "100%" }} boxShadow={1}>
         <DataGrid
           sx={{
             ".MuiDataGrid-columnHeaderTitle": {
