@@ -10,15 +10,16 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import "./styles.css";
 
 const CollectionDays = ({ uprn }) => {
-  sid =
-    typeof FS !== "undefined" && FS !== null
-      ? (ref = FS.Auth) != null
-        ? ref.session["auth-session"]
-        : void 0
-      : void 0;
+  // sid =
+  //   typeof FS !== "undefined" && FS !== null
+  //     ? (ref = FS.Auth) != null
+  //       ? ref.session["auth-session"]
+  //       : void 0
+  //     : void 0;
   const [open, setOpen] = useState(true);
   const { isLoading, data } = useFetch(
     "/apibroker/runLookup?id=64e31b15a29e7&repeat_against=&noRetry=true&getOnlyTokens=undefined&log_id=&app_name=AchieveForms&sid=",
+    { data: [uprn], headers: { "Content-Type": "application/json" } },
   );
 
   const rows = [];
