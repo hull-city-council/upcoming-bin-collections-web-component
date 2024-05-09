@@ -12,11 +12,15 @@ import "./styles.css";
 const CollectionDays = ({ uprn }) => {
   const [open, setOpen] = useState(true);
   const { isLoading, data } = useFetch(
-    `https://www.hullcc.gov.uk/api/property/bindate2/${uprn}`,
+    `https://prod-27.westeurope.logic.azure.com/workflows/287131afe7b24a33aa0cb07c7b6ddce5/triggers/manual/paths/invoke/uprn/${uprn}?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=XeMnYJGciF98b7ClKvpA1SXHB6jAWK5hqvCU62ih58M`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
   );
-
   const rows = [];
-  data?.map((item, index) =>
+  data?.collection_days.map((item, index) =>
     rows.push({
       id: index,
       type: item.collection_type,
@@ -31,21 +35,26 @@ const CollectionDays = ({ uprn }) => {
 
   return (
     <>
-      <Alert
-        sx={{ alignItems: "flex-start" }}
-        startDecorator={<ReportIcon />}
-        variant="soft"
-        color="danger"
-      >
-        <div>
-          <div>Missed bins on...</div>
-          <Typography level="body-sm" color="danger">
-            We are aware that that we have not collected the bins from all the
-            properties on your street. If you have been affected, please leave
-            your bin out and we will return as soon as possible.
-          </Typography>
-        </div>
-      </Alert>
+      {data?.events.street_event && (
+        <Alert
+          sx={{ alignItems: "flex-start", mb: 3 }}
+          startDecorator={<ReportIcon />}
+          variant="soft"
+          color="danger"
+        >
+          <div>
+            <div>
+              Missed bins on{" "}
+              <span style={{ textTransform: "capitalize" }}>
+                {data?.events.street_name}
+              </span>
+            </div>
+            <Typography level="body-sm" color="danger">
+              {data?.events.message}
+            </Typography>
+          </div>
+        </Alert>
+      )}
       <Box sx={{ height: 400, width: "100%" }} boxShadow={1}>
         <DataGrid
           sx={{
